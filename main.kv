@@ -1,0 +1,290 @@
+WindowManager:
+    StartWindow:
+    HomeWindow:
+    PracticeWindow:
+    TestWindow:
+    KeyboardWindow:
+
+<Button>:
+    color: 1,1,1,1
+    background_normal:''
+    background_down:''
+    font_name: 'Corbel'
+
+<RoundedButton@Button>
+    background_normal:''
+    background_down:''
+    background_color:(0,0,0,0) 
+    canvas.before:
+        Color:
+            rgba:(0.5922,0.6235,0.9373,1) if self.state=='normal' else (0.42,0.4667,0.9098,1)
+        RoundedRectangle:
+            size:self.size
+            pos:self.pos
+            radius:[18]
+
+<StartWindow>:
+    name:'start'
+    Label:
+        text:'Pitch Trainer'
+        pos_hint:{'center_x':.5, 'center_y':.75}
+        font_size:root.width*0.03+root.height*0.03
+
+    Image:
+        source:'./images/musical-note.png'
+        size_hint: None, 0.2
+        size: self.texture_size
+        pos_hint:{'center_x':.5, 'center_y':.5}
+        #the center x/y value of the widget is 0.5 across the screen
+
+    RoundedButton:
+        id: start_btn
+        text:'Start'
+        size_hint_x:0.5
+        size_hint_y:0.08
+        pos_hint:{'center_x':.5,'y':0.22}
+        on_release:
+            app.root.current = 'home'
+            root.manager.transition.direction = 'up'
+
+
+
+<HomeWindow>:
+    name:'home'
+    BoxLayout:
+        orientation:'vertical'
+        size:root.width,root.height
+        padding:0,50
+        spacing:20
+
+        RoundedButton:
+            id:practice_btn
+            text:'Practice'
+            size_hint_x:0.5
+            size_hint_y:0.08
+            pos_hint:{'center_x':0.5,'y':0.78}
+            on_release:
+                app.root.current = 'practice'
+                root.manager.transition.direction = 'left'
+
+        RoundedButton:
+            id:text_btn
+            text:'Test'
+            size_hint_x:0.5
+            size_hint_y:0.08
+            pos_hint:{'center_x':0.5,'y':0.68}
+            on_release:
+                app.root.current = 'test'
+                root.manager.transition.direction = 'left'
+
+        RoundedButton:
+            id:guide_btn
+            text:'Guide'
+            size_hint_x:0.5
+            size_hint_y:0.08
+            pos_hint:{'center_x':0.5,'y':0.58}
+            on_release:
+                app.root.current = 'keyboard'
+                root.manager.transition.direction = 'left'
+
+<PracticeWindow>:
+    name:'practice'
+
+    Image:
+        source:'./images/audio-icon.png'
+        size_hint: None, 0.15
+        size: self.texture_size
+        pos_hint:{'center_x':.5, 'center_y':.685}
+
+    #black keys
+    RoundedButton:
+        text:'C#/Db'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.1667, 'top':0.50}
+
+    RoundedButton:
+        text:'D#/Eb'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.3333, 'top':0.50}
+
+    RoundedButton:
+        text:'F#/Gb'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.5, 'top':0.50}
+
+    RoundedButton:
+        text:'G#/Ab'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.6667, 'top':0.50}
+
+    RoundedButton:
+        text:'A#/Bb'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.8333, 'top':0.50}
+
+    
+    #white keys
+    RoundedButton:
+        text:'C'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.125, 'top':0.25}
+        on_press:
+            root.play()
+
+    RoundedButton:
+        text:'D'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.25, 'top':0.25}
+
+    RoundedButton:
+        text:'E'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.375, 'top':0.25}
+
+    RoundedButton:
+        text:'F'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.5, 'top':0.25}
+
+    RoundedButton:
+        text:'G'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.625, 'top':0.25}
+
+    RoundedButton:
+        text:'A'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.75, 'top':0.25}       
+
+    RoundedButton:
+        text:'B'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.875, 'top':0.25}          
+        
+    RoundedButton:
+        name:'back'
+        text:'Back'
+        size_hint_x:0.5
+        size_hint_y:0.08
+        pos_hint:{'center_x':.5,'top':0.95}
+        on_release:
+            app.root.current = 'home'
+            root.manager.transition.direction = 'right'
+
+<TestWindow>:
+    name:'test'
+
+    Slider:
+        id:slider
+        min:1
+        max:20
+        value:10
+        step: 1
+        value_track:True
+        value_track_color:(0.5922,0.6235,0.9373,1)
+        size_hint_x:0.7
+        pos_hint:{'center_x':.5,'center_y':.8}
+
+    Label:
+        text: 'Choosing ' + str(slider.value) + ' Question' if slider.value == 1 else 'Choosing ' + str(slider.value) + ' Questions'
+        pos_hint:{'center_x':.5,'center_y':.7}
+    
+    RoundedButton:
+        id: start_test_btn
+        text:'Start'
+        size_hint_x:0.4
+        size_hint_y:0.16
+        pos_hint:{'center_x':.5,'top':0.4}
+        canvas.before:
+            Color:
+                rgba:(0.2,0.7098,0.8980,1) if self.state=='normal' else (0.42,0.4667,0.9098,1)
+            RoundedRectangle:
+                size:self.size
+                pos:self.pos
+                radius:[18]
+
+    RoundedButton:
+        name:'back'
+        text:'Back'
+        size_hint_x:0.5
+        size_hint_y:0.08
+        pos_hint:{'center_x':.5,'top':0.12}
+        on_release:
+            app.root.current = 'home'
+            root.manager.transition.direction = 'right'
+
+<KeyboardWindow>:
+    name:'keyboard'
+    
+    #black keys
+    RoundedButton:
+        text:'C#/Db'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.1667, 'top':0.85}
+
+    RoundedButton:
+        text:'D#/Eb'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.3333, 'top':0.85}
+
+    RoundedButton:
+        text:'F#/Gb'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.5, 'top':0.85}
+
+    RoundedButton:
+        text:'G#/Ab'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.6667, 'top':0.85}
+
+    RoundedButton:
+        text:'A#/Bb'
+        size_hint:0.15,0.2
+        pos_hint:{'center_x':0.8333, 'top':0.85}
+
+    
+    #white keys
+    RoundedButton:
+        text:'C'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.125, 'top':0.55}
+
+    RoundedButton:
+        text:'D'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.25, 'top':0.55}
+
+    RoundedButton:
+        text:'E'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.375, 'top':0.55}
+
+    RoundedButton:
+        text:'F'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.5, 'top':0.55}
+
+    RoundedButton:
+        text:'G'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.625, 'top':0.55}
+
+    RoundedButton:
+        text:'A'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.75, 'top':0.55}       
+
+    RoundedButton:
+        text:'B'
+        size_hint:0.12,0.2
+        pos_hint:{'center_x':0.875, 'top':0.55}          
+        
+    RoundedButton:
+        name:'back'
+        text:'Back'
+        size_hint_x:0.5
+        size_hint_y:0.08
+        pos_hint:{'center_x':.5,'top':0.12}
+        on_release:
+            app.root.current = 'home'
+            root.manager.transition.direction = 'right'
