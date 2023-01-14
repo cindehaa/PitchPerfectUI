@@ -16,7 +16,6 @@
 The UI was built in Python and kvlang, using the Kivy framework.
 
 ## Features
-
 ###### This project currently only includes the app UI. Future plans involve developing the app into a musical pitch trainer, using spaced repetition to help users improve their pitch recognition.
 
 * App layout is responsive to different screen sizes
